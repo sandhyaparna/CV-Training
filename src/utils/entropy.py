@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from cds_vision_tools.utils.image_helper import crop_image
+from image_helper import crop_image
 
 
 def get_entropy(frame: np.ndarray, hot_spot: dict) -> tuple[float, np.ndarray]:
