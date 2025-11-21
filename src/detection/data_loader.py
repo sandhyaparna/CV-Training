@@ -319,6 +319,12 @@ class ResizeRotateColorTransform:
 
 
 class CustomDataset(torch.utils.data.Dataset):
+    """
+    Args:
+        root (str): Path to image directory.
+        annotation (str): Path to COCO annotation file.
+        transforms (callable, optional): Transform function.
+    """
     def __init__(self, root, annotation, transforms=None):
         self.root = root
         self.transforms = transforms
@@ -338,6 +344,8 @@ class CustomDataset(torch.utils.data.Dataset):
         path = coco.loadImgs(img_id)[0]['file_name']
         # open the input image
         img = Image.open(os.path.join(self.root, path))
+        # Get image size dynamically
+        width, height = img.size
         # number of objects in the image
         num_objs = len(coco_annotation)
 
@@ -379,7 +387,7 @@ class CustomDataset(torch.utils.data.Dataset):
             # disable this when resizing
             #img = self.transforms(img)
             # disable comments for image resizing
-            img, bboxes = self.transforms(img, boxes, 1280, 720)
+            img, bboxes = self.transforms(img, boxes, width, height))
             my_annotation['boxes'] = torch.Tensor(bboxes)
 
         return img, my_annotation
