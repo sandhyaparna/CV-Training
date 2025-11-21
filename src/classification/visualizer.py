@@ -10,7 +10,7 @@ from sklearn.metrics import confusion_matrix
 from torch.utils.data import DataLoader
 from torchvision.utils import save_image
 
-from cds_vision_tools.pytorch.classification.trainer import ClassificationTrainer
+from trainer import ClassificationTrainer
 
 
 def show_example(img: torch.Tensor, label: str, predicted_label: str = None):
