@@ -7,7 +7,7 @@ import torch.nn as nn
 from sklearn.metrics import accuracy_score, fbeta_score, precision_score, recall_score
 from tqdm import tqdm
 
-from cds_vision_tools.utils.logging.logger import LoggingConfigurator
+from utils.logging.logger import LoggingConfigurator
 
 configurator = LoggingConfigurator()
 
