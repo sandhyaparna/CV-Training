@@ -2,7 +2,7 @@ import logging
 
 import requests
 
-from cds_vision_tools.utils.logging.logger import LoggingConfigurator
+from logging.logger import LoggingConfigurator
 
 LoggingConfigurator()
 logger = logging.getLogger(__name__)
