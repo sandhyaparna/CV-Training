@@ -63,7 +63,7 @@ from torchvision.utils import draw_bounding_boxes
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def visualize_detections(img_pil, model, class_names, score_threshold=0.3, box_width=4):
+def visualize_detections(img_pil, model, class_names, score_threshold=0.5, box_width=4):
     """
     img_pil: PIL.Image (RGB)
     class_names: dict mapping class_id -> string, e.g. {1: 'chuck'}
