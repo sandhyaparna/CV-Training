@@ -90,8 +90,9 @@ def visualize_detections(img_pil, model, class_names, score_threshold=0.3, box_w
 
     # draw on a CPU tensor version of the image (uint8 expected)
     img_cpu = (img_tensor.to("cpu") * 255).byte()
+    # warnings.warn("Argument 'font_size' will be ignored since 'font' is not set.")
     img_vis = draw_bounding_boxes(
-        img_cpu, boxes, labels=label_names, width=box_width, colors="black", font_size=14
+        img_cpu, boxes, labels=label_names, width=box_width, colors="black"
     )
 
     return torchvision.transforms.ToPILImage()(img_vis)
