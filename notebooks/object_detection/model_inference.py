@@ -63,7 +63,7 @@ from torchvision.utils import draw_bounding_boxes
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def visualize_detections(img_pil, model, class_names, score_threshold=0.5, box_width=4):
+def visualize_detections(img_pil, model, class_names, score_threshold=0.3, box_width=4):
     """
     img_pil: PIL.Image (RGB)
     class_names: dict mapping class_id -> string, e.g. {1: 'chuck'}
@@ -79,16 +79,19 @@ def visualize_detections(img_pil, model, class_names, score_threshold=0.5, box_w
     result = outputs[0]
     scores = result["scores"]
     keep = scores > score_threshold
+    
     boxes = result["boxes"][keep].detach().to("cpu")
     labels = result["labels"][keep].to("cpu")
+    kept_scores = scores[keep].detach().to("cpu")
 
     # prepare label strings
-    label_names = [class_names.get(lbl.item(), str(lbl.item())) for lbl in labels]
+    label_names_raw = [class_names.get(lbl.item(), str(lbl.item())) for lbl in labels]
+    label_names = [f"{name} - {score:.2f}" for name, score in zip(label_names_raw, kept_scores)]
 
     # draw on a CPU tensor version of the image (uint8 expected)
     img_cpu = (img_tensor.to("cpu") * 255).byte()
     img_vis = draw_bounding_boxes(
-        img_cpu, boxes, labels=label_names, width=box_width, colors="red"
+        img_cpu, boxes, labels=label_names, width=box_width, colors="black", font_size=14
     )
 
     return torchvision.transforms.ToPILImage()(img_vis)
