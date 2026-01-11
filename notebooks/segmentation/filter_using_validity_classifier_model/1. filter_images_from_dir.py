@@ -13,8 +13,8 @@ from torchvision.models import efficientnet_v2_s, EfficientNet_V2_S_Weights
 
 # -------- CONFIG --------
 CHECKPOINT_PATH = "multi_label_classifier_efficientnet_v2_s_224.pt"
-INPUT_DIR = "./v1_seg_filter"
-OUTPUT_DIR = "./v1_seg_filter_0.9"
+INPUT_DIR = "./v1_seg_filter"  # 20000_images
+OUTPUT_DIR = "./v1_seg_filter_0.9"  # v1_label5  # v1_label_1_3  # v1_label_1_4 # v1_label_2_3  # v1_label_2_4
 NUM_LABELS = 5
 THRESHOLD = 0.5  # 0.9
 # ------------------------
