@@ -11,7 +11,7 @@ VERSION = "v2"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 print(sorted(os.listdir(BASE_DIR)))
 # Loop through each camera folder
-for cam_id in sorted(os.listdir(BASE_DIR)):
+for cam_id in ['176', '177', '178', '179', '180', '181', '182', '184']:
     cam_path = os.path.join(BASE_DIR, cam_id)
     print("cam_path:", cam_path)
 
