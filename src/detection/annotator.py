@@ -165,3 +165,51 @@ def combine_coco_files(coco_files_to_combine: List[Dict]) -> Dict:
     combined_coco_file = reduce(combine_two_coco_files, coco_files_to_combine)
     return combined_coco_file
     
+import json
+from pathlib import Path
+from copy import deepcopy
+
+
+def extract_text_after_first_dash(s: str) -> str:
+    """
+    Extract text after the first dash.
+    Example: '12345-image.jpg' -> 'image.jpg'
+    """
+    if not isinstance(s, str):
+        return s
+    parts = s.split("-", 1)
+    return parts[1] if len(parts) > 1 else s
+
+
+def fix_and_export_coco_data(
+    coco_data: dict,
+    output_path: str | Path,
+    inplace: bool = False
+) -> dict:
+    """
+    Fix file_name fields in COCO 'images' and export the updated COCO file.
+
+    Args:
+        coco_data: Combined COCO dictionary.
+        output_path: Path where the final COCO JSON will be written.
+        inplace: If True, modifies coco_data in place. Otherwise works on a copy.
+
+    Returns:
+        The updated COCO dictionary.
+    """
+    coco = coco_data if inplace else deepcopy(coco_data)
+
+    if "images" not in coco:
+        raise ValueError("Invalid COCO format: 'images' key not found")
+
+    for image in coco["images"]:
+        if "file_name" in image:
+            image["file_name"] = extract_text_after_first_dash(image["file_name"])
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(coco, f, indent=2)
+
+    return coco
