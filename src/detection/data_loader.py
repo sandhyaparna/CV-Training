@@ -317,6 +317,17 @@ class ResizeRotateColorTransform:
         ])
 
 
+# ------------------------------------------------------------
+# Resize + Horizontal Flip + Color
+# ------------------------------------------------------------
+class ResizeHorzColorTransform(ResizeHorzTransform):
+    def __call__(self, img, bboxes, orig_w, orig_h):
+        img, bboxes = super().__call__(img, bboxes, orig_w, orig_h)
+        img = transforms.ColorJitter(
+            brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2
+        )(img)
+        return img, bboxes
+
 
 class CustomDataset(torch.utils.data.Dataset):
     """
